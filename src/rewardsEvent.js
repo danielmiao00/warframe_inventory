@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Rewards} from "./rewards.js";
+import {RewardsJSX} from "./rewardsJSX.js";
 
 class RewardsEvents extends React.Component{
   constructor(props){
@@ -9,13 +9,29 @@ class RewardsEvents extends React.Component{
     this.test = this.test.bind(this);
   }
 
+  componentDidMount(){
+    var url = "http://www.dnd5eapi.co/api/equipment";
+    var parm = {
+      method: "GET",
+
+    }
+    fetch(url, parm)
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        this._itemList = json;
+        console.log(this._itemList);
+      });
+  }
+
   test(){
     alert("HEY!");
   }
 
   render(){
     return(
-      <Rewards test={this.test}/>
+      <RewardsJSX test={this.test}/>
     );
   }
 }

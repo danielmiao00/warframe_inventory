@@ -1,7 +1,7 @@
 import React from 'react';
 import "./rewards.css";
 
-export class Rewards extends React.Component{
+export class RewardsJSX extends React.Component{
 	render(){
 		return(
 			<div className="rewards-duallistbox">
