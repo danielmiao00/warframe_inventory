@@ -6,24 +6,45 @@ class RewardsEvents extends React.Component{
   constructor(props){
     super(props);
 
-    this.test = this.test.bind(this);
-  }
+    this.state = {
 
-  componentDidMount(){
+    };
+
+    this.test = this.test.bind(this);
+
     var url = "http://www.dnd5eapi.co/api/equipment";
     var parm = {
       method: "GET",
-
     }
+
+
     fetch(url, parm)
       .then((response) => {
         return response.json();
       })
       .then((json) => {
-        this._itemList = json;
-        console.log(this._itemList);
+          console.log("Returned JSON");
+          console.log(json);
+
+          var masterList = json.results.map((data) =>
+      						<option
+      								key={data.index}
+      								value={data.index}
+      						>
+      								{data.name}
+      						</option>
+      		);
+
+          this.setState({masterList: masterList});
+
       });
+
+
   }
+
+
+
+
 
   test(){
     alert("HEY!");
@@ -31,7 +52,7 @@ class RewardsEvents extends React.Component{
 
   render(){
     return(
-      <RewardsJSX test={this.test}/>
+      <RewardsJSX test={this.test} masterList={this.state.masterList}/>
     );
   }
 }
