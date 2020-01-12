@@ -1,4 +1,4 @@
-.rewards-duallistbox{
+.inventory-duallistbox{
 	border: 3px solid dodgerblue;
 
 	display: flex;
@@ -6,7 +6,7 @@
 
 }
 
-.rewards-controls{
+.inventory-controls{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -14,7 +14,7 @@
 	padding: 0 3em;
 }
 
-.rewards-singlelist{
+.inventory-singlelist{
 	border: 3px solid red;
 
 	width: 15em;
@@ -27,11 +27,11 @@
 	flex-direction: column;
 }
 
-.rewards-title{
+.inventory-title{
 	border: 3px solid orange;
 }
 
-.rewards-select{
+.inventory-select{
 	border: 3px solid green;
 	width:100%;
 	text-align: center;
