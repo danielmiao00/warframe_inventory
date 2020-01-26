@@ -1,9 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-//import {InventoryJSX} from "./inventoryJSX.js";
 import DualListBox from 'react-dual-listbox';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faAngleLeft, faAngleRight, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons'
+
+
+library.add(fab, faAngleLeft, faAngleRight, faAngleDoubleLeft, faAngleDoubleRight);
 
 class Inventory extends React.Component{
 
@@ -11,7 +16,7 @@ class Inventory extends React.Component{
     super(props);
 
     this.state = {
-      masterList: []
+      options: []
     };
 
     this.add = this.add.bind(this);
@@ -27,7 +32,7 @@ class Inventory extends React.Component{
         return response.json();
       })
       .then((json) => {
-          var masterList = json.results.map((data) =>{
+          var options = json.results.map((data) =>{
             return {
               value: data.index,
               label: data.name
@@ -37,7 +42,7 @@ class Inventory extends React.Component{
 
 
 
-          this.setState({masterList: masterList});
+          this.setState({options: options});
       });
 
 
@@ -53,24 +58,20 @@ class Inventory extends React.Component{
   };
 
   render(){
-    console.log("Master List");
-    console.log(this.state.masterList);
 
-    const { selected } = this.state;
-    const options = [
-        { value: 'one', label: 'Option One' },
-        { value: 'two', label: 'Option Two' },
-    ];
-
-    console.log("Options");
-    console.log(options);
+    const selected  = this.state.selected;
 
     return(
       <DualListBox
-          options={this.state.masterList}
+          options={this.state.options}
           selected={selected}
           onChange={this.onChange}
-
+          icons={{
+            moveLeft: <FontAwesomeIcon icon="angle-left" />,
+            moveAllLeft: <FontAwesomeIcon icon="angle-double-left" />,
+            moveRight: <FontAwesomeIcon icon="angle-right" />,
+            moveAllRight: <FontAwesomeIcon icon="angle-double-right" />,
+          }}
       />
     );
   }
