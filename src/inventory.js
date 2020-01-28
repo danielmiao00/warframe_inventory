@@ -11,58 +11,111 @@ import { faAngleLeft, faAngleRight, faAngleDoubleLeft, faAngleDoubleRight } from
 library.add(fab, faAngleLeft, faAngleRight, faAngleDoubleLeft, faAngleDoubleRight);
 
 class Inventory extends React.Component{
-
   constructor(props){
     super(props);
 
     this.state = {
-      options: []
+      options: [],
+      cost: new Map()
     };
-
-    this.add = this.add.bind(this);
 
     var url = "http://www.dnd5eapi.co/api/equipment";
     var parm = {
       method: "GET",
     }
 
-
     fetch(url, parm)
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-          var options = json.results.map((data) =>{
-            return {
-              value: data.index,
-              label: data.name
-            };
-          });
-
-
-
-
-          this.setState({options: options});
+    .then((response) => {
+      return response.json();
+    })
+    .then((json) => {
+      var options = json.results.map((data) =>{
+        return {
+          value: data.index,
+          label: data.name
+        };
       });
-
-
-  }
-
-
-  add(){
+      this.setState({options: options});
+    });
 
   }
+
+
 
   onChange = (selected) => {
       this.setState({ selected });
-  };
+      this.calculate(selected);
+  }
+
+  calculate = async (selected) =>{
+    var parm = {
+      method: "GET",
+    };
+
+    var cost = new Map([
+      ["pp", 0],
+      ["gp", 0],
+      ["ep", 0],
+      ["sp", 0],
+      ["cp", 0]
+    ]);
+
+    for(var i=0; i<selected.length; i++){
+        var url = "http://www.dnd5eapi.co/api/equipment/" +selected[i];
+
+        await fetch(url, parm)
+        .then((response) => {
+          return response.json();
+        })
+        .then((json) => {
+          var quantity = json.cost.quantity;
+          var unit = json.cost.unit;
+
+          cost.set(unit, cost.get(unit)+quantity);
+        });
+    }
+
+
+
+    console.log("Cost HERE");
+    console.log(cost);
+    this.setState({cost: cost});
+
+
+
+
+
+
+
+  }
+
+
+
 
   render(){
 
     const selected  = this.state.selected;
+    const cost = this.state.cost;
+
 
     return(
-      <DualListBox
+      <div>
+        <DualListBox
+          canFilter
+          filterCallback={(option, filterInput) => {
+            if (filterInput === '') {
+              return true;
+            }
+
+            return (new RegExp(filterInput, 'i')).test(option.label);
+          }}
+          filterPlaceholder="Filter..."
+          lang={{
+            availableHeader: "Master Item List",
+            selectedHeader: 'Reward List'
+          }}
+          showHeaderLabels={true}
+          allowDuplicates={true}
           options={this.state.options}
           selected={selected}
           onChange={this.onChange}
@@ -72,7 +125,21 @@ class Inventory extends React.Component{
             moveRight: <FontAwesomeIcon icon="angle-right" />,
             moveAllRight: <FontAwesomeIcon icon="angle-double-right" />,
           }}
-      />
+        />
+
+        <div className="total">
+          <label>Total:</label>
+          <div className="gold">
+            <input type="text" value="0" readOnly/><label>gp</label>
+          </div>
+          <div className="silver">
+            <input type="text" value="0" readOnly/><label>sp</label>
+          </div>
+          <div className="bronze">
+            <input type="text" value="0" readOnly/><label>bp</label>
+          </div>
+        </div>
+      </div>
     );
   }
 }

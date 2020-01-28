@@ -1,5 +1,6 @@
 
 import "./inventory.js";
+import "./inventory.css";
 import "./index.css";
 
 
