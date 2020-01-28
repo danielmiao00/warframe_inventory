@@ -76,16 +76,7 @@ class Inventory extends React.Component{
     }
 
 
-
-    console.log("Cost HERE");
-    console.log(cost);
     this.setState({cost: cost});
-
-
-
-
-
-
 
   }
 
@@ -97,6 +88,11 @@ class Inventory extends React.Component{
     const selected  = this.state.selected;
     const cost = this.state.cost;
 
+    const pp = cost.has("pp") ? cost.get("pp") : 0;
+    const gp = cost.has("gp") ? cost.get("gp") : 0;
+    const ep = cost.has("ep") ? cost.get("ep") : 0;
+    const sp = cost.has("sp") ? cost.get("sp") : 0;
+    const cp = cost.has("cp") ? cost.get("cp") : 0;
 
     return(
       <div>
@@ -129,15 +125,22 @@ class Inventory extends React.Component{
 
         <div className="total">
           <label>Total:</label>
+          <div className="platium">
+            <input type="text" value={pp} readOnly/><label>pp</label>
+          </div>
           <div className="gold">
-            <input type="text" value="0" readOnly/><label>gp</label>
+            <input type="text" value={gp} readOnly/><label>gp</label>
+          </div>
+          <div className="electrum ">
+            <input type="text" value={ep} readOnly/><label>ep</label>
           </div>
           <div className="silver">
-            <input type="text" value="0" readOnly/><label>sp</label>
+            <input type="text" value={sp} readOnly/><label>sp</label>
           </div>
-          <div className="bronze">
-            <input type="text" value="0" readOnly/><label>bp</label>
+          <div className="copper">
+            <input type="text" value={cp} readOnly/><label>cp</label>
           </div>
+
         </div>
       </div>
     );
