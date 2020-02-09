@@ -16,7 +16,12 @@ class Inventory extends React.Component{
 
     this.state = {
       options: [],
-      cost: new Map()
+      cost: new Map(),
+      pp: 0,
+      gp: 0,
+      ep: 0,
+      sp: 0,
+      cp: 0
     };
 
     var url = "http://www.dnd5eapi.co/api/equipment";
@@ -75,24 +80,50 @@ class Inventory extends React.Component{
         });
     }
 
+    var pp = cost.has("pp") ? cost.get("pp") : 0;
+    var gp = cost.has("gp") ? cost.get("gp") : 0;
+    var ep = cost.has("ep") ? cost.get("ep") : 0;
+    var sp = cost.has("sp") ? cost.get("sp") : 0;
+    var cp = cost.has("cp") ? cost.get("cp") : 0;
 
-    this.setState({cost: cost});
+
+    this.setState({
+      pp: pp,
+      gp: gp,
+      ep: ep,
+      sp: sp,
+      cp: cp
+    });
 
   }
 
+
+  convert=()=>{
+    var cp = this.state.cp;
+    var sp = this.state.sp + Math.floor(cp/10);
+    var ep = this.state.ep + Math.floor(sp/10);
+    var gp = this.state.gp + Math.floor(ep/10);
+    var pp = this.state.pp + Math.floor(gp/10);
+
+    this.setState({
+      cp: cp%10,
+      sp: sp%10,
+      ep: ep%10,
+      gp: gp%10,
+      pp: pp,
+
+    });
+  }
 
 
 
   render(){
 
     const selected  = this.state.selected;
-    const cost = this.state.cost;
 
-    const pp = cost.has("pp") ? cost.get("pp") : 0;
-    const gp = cost.has("gp") ? cost.get("gp") : 0;
-    const ep = cost.has("ep") ? cost.get("ep") : 0;
-    const sp = cost.has("sp") ? cost.get("sp") : 0;
-    const cp = cost.has("cp") ? cost.get("cp") : 0;
+
+
+
 
     return(
       <div>
@@ -126,22 +157,26 @@ class Inventory extends React.Component{
         <div className="total">
           <label>Total:</label>
           <div className="platium">
-            <input type="text" value={pp} readOnly/><label>pp</label>
+            <input type="text" value={this.state.pp} readOnly/><label>pp</label>
           </div>
           <div className="gold">
-            <input type="text" value={gp} readOnly/><label>gp</label>
+            <input type="text" value={this.state.gp} readOnly/><label>gp</label>
           </div>
           <div className="electrum ">
-            <input type="text" value={ep} readOnly/><label>ep</label>
+            <input type="text" value={this.state.ep} readOnly/><label>ep</label>
           </div>
           <div className="silver">
-            <input type="text" value={sp} readOnly/><label>sp</label>
+            <input type="text" value={this.state.sp} readOnly/><label>sp</label>
           </div>
           <div className="copper">
-            <input type="text" value={cp} readOnly/><label>cp</label>
+            <input type="text" value={this.state.cp} readOnly/><label>cp</label>
           </div>
-
         </div>
+
+        <div>
+          <button onClick={this.convert}>Convert</button>
+        </div>
+
       </div>
     );
   }
