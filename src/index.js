@@ -1,8 +1,9 @@
+import React from 'react';
+import ReactDOM from "react-dom";
 
-import "./inventory.js";
-import "./inventory.css";
-import "./index.css";
+import App from "./components/App";
 
-
-
-import "react-dual-listbox/lib/react-dual-listbox.css";
+ReactDOM.render(
+    <App/>,
+    document.querySelector("#app")
+);
