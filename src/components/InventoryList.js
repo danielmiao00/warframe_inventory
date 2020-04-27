@@ -2,16 +2,6 @@ import React from "react";
 
 export default class InventoryList extends React.Component{
     state = {
-        selected: {
-            abc:{            
-                index: "abv",
-                name:"Name!",
-                url:"abc/def",
-                cost:{
-                    quantity: 5,
-                    unit:"gp"
-                }}
-            },
         title: "Inventory",
         showTitle: true
     }
@@ -19,7 +9,6 @@ export default class InventoryList extends React.Component{
     
 
     renderRows(){
-        console.log("Rendering Rows...");
         var data = this.props.selected;
         var rows = [];
 
