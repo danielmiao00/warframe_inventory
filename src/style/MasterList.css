@@ -1,8 +1,12 @@
 .masterlist-table {
-  height: 20em;
+  height: 10em;
   overflow: auto;
   border: 1px solid black;
 }
 .masterlist-row:hover {
   background-color: gray;
+}
+.cost-box {
+  display: flex;
+  flex-direction: column;
 }

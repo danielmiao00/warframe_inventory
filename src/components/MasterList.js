@@ -6,22 +6,15 @@ export default class MasterList extends React.Component {
         masterData: {},
         title: "Master Item List",
         showTitle: true,
-        selected:{
-
-        }
+        selected:{}
     }
     
     constructor(props) {
         super(props);
-
-        
-
         this.getItemData();
-    }//constructor
-
+    }
 
     getItemData() {
-
         //Get List of All Items
         var url = "http://www.dnd5eapi.co/api/equipment";
         var parm = {
@@ -59,6 +52,7 @@ export default class MasterList extends React.Component {
                         .then((json) => {
                             masterData[json.index].cost.quantity = json.cost.quantity;
                             masterData[json.index].cost.unit = json.cost.unit;
+                            masterData[json.index].count = 1;
                         })
                     );
                 }
@@ -82,14 +76,14 @@ export default class MasterList extends React.Component {
                 "name": data[key].name,
                 "url": data[key].url,
                 "quantity": data[key].cost.quantity,
-                "unit": data[key].cost.unit
+                "unit": data[key].cost.unit,
+                "count": data[key].cost
             });
         }
 
         return rows.map((item, i) => {
             return (
-                <tr className="masterlist-row" key={item.index}>
-                    <td><input className="masterlist-checkbox" onClick={this.handleCheck.bind(this)} value={item.index} type="checkbox"></input></td>
+                <tr className="masterlist-row" key={item.index} data-id={item.index} onClick={this.handleSelectionClick.bind(this)}>
                     <td>{item.name}</td>
                     <td>{item.quantity}</td>
                     <td>{item.unit}</td>
@@ -98,28 +92,26 @@ export default class MasterList extends React.Component {
         });
     }
 
-    handleCheck(event){
-        var selectedValue = event.currentTarget.value;
+    handleSelectionClick(event){
+        var selectedValue = event.currentTarget.dataset.id;
         var selected = this.state.selected;
+        var selectedJSON = this.state.masterData[selectedValue];
 
-        if(event.currentTarget.checked){
-            var selectedJSON = this.state.masterData[selectedValue];
-            selected[selectedValue] = selectedJSON;
+        if(selected.hasOwnProperty(selectedValue)){
+            selectedJSON.count++;
         }
-        else{
-            delete selected[selectedValue];
-        }
+
+        selected[selectedValue] = selectedJSON;
 
 
         this.setState({
             selected: selected
         });
 
+        this.props.handleSelectionClick(this.state.selected);
     }
 
-    handleAddClick(){
-        this.props.handleAdd(this.state.selected);
-    }
+
 
     render() {
         const renderTitle = () =>{
@@ -132,13 +124,11 @@ export default class MasterList extends React.Component {
             <div className="masterlist">
                 {renderTitle()}
                 <div className="masterlist-table">
-                    <table>
+                    <table cellSpacing="0">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>Item</th>
                                 <th>Cost</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -146,9 +136,7 @@ export default class MasterList extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <div className="masterlist-button">
-                    <button onClick={this.handleAddClick.bind(this)}>Add</button>
-                </div>
+
             </div>
         );
     };

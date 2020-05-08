@@ -3,12 +3,12 @@ import React from "react";
 export default class InventoryList extends React.Component{
     state = {
         title: "Inventory",
-        showTitle: true
+        showTitle: true,
+
     }
 
-    
-
     renderRows(){
+
         var data = this.props.selected;
         var rows = [];
 
@@ -18,18 +18,19 @@ export default class InventoryList extends React.Component{
                 "name": data[key].name,
                 "url": data[key].url,
                 "quantity": data[key].cost.quantity,
-                "unit": data[key].cost.unit
+                "unit": data[key].cost.unit,
+                "count": data[key].count
             });
         }
 
         return rows.map((item, i) => {
             return (
-                <tr className="masterlist-row" key={item.index}>
-                    <td><input type="checkbox"></input></td>
+                <tr className="masterlist-row" key={item.index} >
                     <td>{item.name}</td>
                     <td>{item.quantity}</td>
                     <td>{item.unit}</td>
-                    <td><input type="number" min="1" max="100" defaultValue="1"></input></td>
+                    <td><input type="number" min="1" max="100" value={item.count} data-id={item.index} onChange={this.props.handleQuantityChange}></input></td>
+                    <td><i className="masterlist-button fa fa-times" data-id={item.index} onClick={this.props.handleRemoveClick}></i></td>
                 </tr>
             );
         });
@@ -46,12 +47,12 @@ export default class InventoryList extends React.Component{
             <div className="inventorylist">
                 {renderTitle()}
                 <div className="inventorylist-table">
-                    <table>
+                    <table cellSpacing="0">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>Item</th>
                                 <th>Cost</th>
+                                <th></th>
                                 <th>Quantity</th>
                             </tr>
                         </thead>
@@ -59,9 +60,6 @@ export default class InventoryList extends React.Component{
                             {this.renderRows()}
                         </tbody>
                     </table>
-                </div>
-                <div className="inventory-buttons">
-                    <button>Remove</button>
                 </div>
             </div>
         );
