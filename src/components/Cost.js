@@ -3,7 +3,7 @@ import React from 'react';
 export default class Cost extends React.Component {
     state = {
         showTitle: true,
-        title: "Cost"
+        title: "Cost",
     }
 
     renderTitle() {
@@ -19,7 +19,7 @@ export default class Cost extends React.Component {
 
                 <div>
                     <label>Sell at:</label>
-                    <input type="number" defaultValue="100" min="1" max="100"></input>
+                    <input type="number" value={this.props.percentage} min="1" max="100" onChange={this.props.handlePercentageChange}></input>
                     <label>%</label>
                 </div>
 
@@ -38,97 +38,75 @@ export default class Cost extends React.Component {
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="text" value={this.props.cost.pp} readOnly></input><label>pp</label>
+                                    <input type="text" value={this.props.cost.pp.quantity} readOnly></input><label>pp</label>
                                 </td>
                                 <td><label>/</label></td>
                                 <td>
-                                    <input type="number" defaultValue="1"></input>
+                                    <input type="number" value={this.props.playerCount} onChange={this.props.handlePlayerCountChange} min="1" max="100"></input>
                                 </td>
                                 <td>=</td>
                                 <td>
-                                    <input type="text" readOnly></input>
+                                    <input type="text" readOnly value={this.props.cost.pp.profit}></input><label>pp</label>
                                 </td>
                                 <td>
-                                    <input type="text" readOnly></input>
+                                    <input type="text" readOnly value={this.props.cost.pp.extra}></input><label>pp</label>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
-                                    <input type="text" value={this.props.cost.gp} readOnly></input><label>gp</label>
+                                    <input type="text" value={this.props.cost.gp.quantity} readOnly></input><label>gp</label>
                                 </td>
                                 <td><label>/</label></td>
                                 <td>
-                                    <input type="number" defaultValue="1"></input>
+                                    <input type="number" value={this.props.playerCount} onChange={this.props.handlePlayerCountChange} min="1" max="100"></input>
                                 </td>
                                 <td>=</td>
                                 <td>
-                                    <input type="text" readOnly></input>
+                                    <input type="text" readOnly value={this.props.cost.gp.profit}></input><label>gp</label>
                                 </td>
                                 <td>
-                                    <input type="text" readOnly></input>
+                                    <input type="text" readOnly value={this.props.cost.gp.extra}></input><label>gp</label>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
-                                    <input type="text" value={this.props.cost.sp} readOnly></input><label>sp</label>
+                                    <input type="text" value={this.props.cost.sp.quantity} readOnly></input><label>sp</label>
                                 </td>
                                 <td><label>/</label></td>
                                 <td>
-                                    <input type="number" defaultValue="1"></input>
+                                    <input type="number" value={this.props.playerCount} onChange={this.props.handlePlayerCountChange} min="1" max="100"></input>
                                 </td>
                                 <td>=</td>
                                 <td>
-                                    <input type="text" readOnly></input>
+                                    <input type="text" readOnly value={this.props.cost.sp.profit}></input><label>sp</label>
                                 </td>
                                 <td>
-                                    <input type="text" readOnly></input>
+                                    <input type="text" readOnly value={this.props.cost.sp.extra}></input><label>sp</label>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
-                                    <input type="text" value={this.props.cost.cp} readOnly></input><label>cp</label>
+                                    <input type="text" value={this.props.cost.cp.quantity} readOnly></input><label>cp</label>
                                 </td>
                                 <td><label>/</label></td>
                                 <td>
-                                    <input type="number" defaultValue="1"></input>
+                                    <input type="number" value={this.props.playerCount} onChange={this.props.handlePlayerCountChange} min="1" max="100"></input>
                                 </td>
                                 <td>=</td>
                                 <td>
-                                    <input type="text" readOnly></input>
+                                    <input type="text" readOnly value={this.props.cost.cp.profit}></input><label>cp</label>
                                 </td>
                                 <td>
-                                    <input type="text" readOnly></input>
+                                    <input type="text" readOnly value={this.props.cost.cp.extra}></input><label>cp</label>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-
-
-
-                {/* <div className="cost-box">
-                    <div>
-                        <input type="text" value={this.props.cost.pp} readOnly></input><label>pp</label>
-                    </div>
-                    <div>
-                        <input type="text" value={this.props.cost.gp} readOnly></input><label>gp</label>
-                    </div>
-                    <div>
-                        <input type="text" value={this.props.cost.sp} readOnly></input><label>sp</label>
-                    </div>
-                    <div>
-                        <input type="text" value={this.props.cost.cp} readOnly></input><label>cp</label>
-                    </div>
-                </div> */}
-
-
-
-
-                <button onClick={this.props.handleConvertClick}>Convert</button>
             </div>
         );
     }
